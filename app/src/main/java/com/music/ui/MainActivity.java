@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.music.R;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements CurrentSessionCal
     RecyclerView recyclerView;
     MusicAdapter adapter;
     List<MediaMetaData> data = new ArrayList<>();
+    TextView title,description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements CurrentSessionCal
         streamingManager = AudioStreamingManager.getInstance(context);
         recyclerView = findViewById(R.id.music_recycler);
         adapter = new MusicAdapter();
+        recyclerView.setAdapter(adapter);
         loadM();
         click();
     }
@@ -49,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements CurrentSessionCal
             @Override
             public void onLoadSuccess(List<MediaMetaData> listMusic) {
                 data = listMusic;
-                adapter.setMetadata(data);
+                adapter.setMetadata(listMusic);
 
                 playing();
             }
@@ -81,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements CurrentSessionCal
         adapter.setListener(new ClickListener() {
             @Override
             public void onClick(int position) {
-
+                streamingManager.onPlay(data.get(position));
             }
         });
     }

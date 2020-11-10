@@ -28,6 +28,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
 
     public void setMetadata(List<MediaMetaData> metadata) {
         this.metadata = metadata;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -46,7 +47,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return 0;
+        return metadata.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -59,12 +60,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
             title = itemView.findViewById(R.id.title);
             imageView = itemView.findViewById(R.id.play_pause_iv);
             description = itemView.findViewById(R.id.description);
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    listener.onClick(getAdapterPosition());
-                }
-            });
+            imageView.setOnClickListener(view -> listener.onClick(getAdapterPosition()));
         }
     }
 }
